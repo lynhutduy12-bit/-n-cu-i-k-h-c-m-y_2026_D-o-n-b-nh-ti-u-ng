@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dự đoán nguy cơ tiểu đường - Nhóm 7</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+    <div class="container topbar-inner">
+        <div class="brand">
+            <span class="logo">+</span>
+            <div>
+                <h1>Dự đoán nguy cơ mắc bệnh tiểu đường</h1>
+                <p>Đồ án môn Các vấn đề hiện đại trong Trí tuệ nhân tạo - Nhóm 7</p>
+            </div>
+        </div>
+        <div class="model-badge" id="modelBadge">Đang tải mô hình...</div>
+    </div>
+</header>
+
+<main class="container layout">
+
+    <!-- ================= FORM NHẬP CHỈ SỐ ================= -->
+    <section class="card">
+        <h2>Nhập chỉ số sức khỏe</h2>
+        <p class="hint">Điền đủ 8 thông tin bên dưới rồi bấm <b>Dự đoán</b>.</p>
+
+        <form id="predictForm" novalidate>
+            <div class="grid">
+                <div class="field">
+                    <label>Giới tính</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="gender" value="Female" checked> Nữ</label>
+                        <label><input type="radio" name="gender" value="Male"> Nam</label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="age">Tuổi</label>
+                    <input type="number" id="age" name="age" min="1" max="120" step="1" placeholder="VD: 45" required>
+                </div>
+
+                <div class="field">
+                    <label>Tăng huyết áp</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="hypertension" value="0" checked> Không</label>
+                        <label><input type="radio" name="hypertension" value="1"> Có</label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Bệnh tim</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="heart_disease" value="0" checked> Không</label>
+                        <label><input type="radio" name="heart_disease" value="1"> Có</label>
+                    </div>
+                </div>
+
+                <div class="field full">
+                    <label for="smoking_history">Tiền sử hút thuốc</label>
+                    <select id="smoking_history" name="smoking_history">
+                        <option value="never">Chưa từng hút thuốc</option>
+                        <option value="former">Trước đây hút, nay đã bỏ</option>
+                        <option value="current">Đang hút thuốc</option>
+                        <option value="not current">Hiện tại không hút</option>
+                        <option value="ever">Đã từng hút thuốc</option>
+                        <option value="No Info">Không rõ / Không muốn trả lời</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="bmi">Chỉ số BMI</label>
+                    <input type="number" id="bmi" name="bmi" min="10" max="100" step="0.01" placeholder="VD: 24.5" required>
+                    <button type="button" class="link-btn" id="bmiToggle">Chưa biết BMI? Tính từ chiều cao, cân nặng</button>
+                    <div class="bmi-calc" id="bmiCalc" hidden>
+                        <input type="number" id="heightCm" placeholder="Cao (cm)" min="50" max="250">
+                        <input type="number" id="weightKg" placeholder="Nặng (kg)" min="10" max="300">
+                        <button type="button" class="small-btn" id="bmiApply">Tính</button>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="hba1c_level">HbA1c (%)</label>
+                    <input type="number" id="hba1c_level" name="hba1c_level" min="3" max="20" step="0.1" placeholder="VD: 5.8" required>
+                    <small>Đường huyết trung bình 2 - 3 tháng (xét nghiệm máu)</small>
+                </div>
+
+                <div class="field full">
+                    <label for="blood_glucose_level">Mức đường huyết (mg/dL)</label>
+                    <input type="number" id="blood_glucose_level" name="blood_glucose_level" min="40" max="600" step="1" placeholder="VD: 140" required>
+                    <small>Nếu đo theo mmol/L thì nhân với 18 (VD: 7.8 mmol/L ≈ 140 mg/dL)</small>
+                </div>
+            </div>
+
+            <div class="error" id="formError" hidden></div>
+
+            <div class="actions">
+                <button type="submit" class="primary-btn" id="submitBtn">Dự đoán</button>
+                <button type="button" class="secondary-btn" id="sampleBtn">Điền dữ liệu mẫu</button>
+                <button type="reset" class="secondary-btn">Nhập lại</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- ================= KẾT QUẢ ================= -->
+    <section class="card result-card">
+        <h2>Kết quả dự đoán</h2>
+
+        <div id="resultEmpty" class="empty">
+            <p>Chưa có kết quả.</p>
+            <p class="hint">Nhập chỉ số sức khỏe và bấm <b>Dự đoán</b> để xem đánh giá nguy cơ.</p>
+        </div>
+
+        <div id="resultBox" hidden>
+            <div class="verdict" id="verdict">
+                <div class="verdict-label" id="verdictLabel"></div>
+                <div class="verdict-prob"><span id="probText"></span><small>xác suất có nguy cơ</small></div>
+            </div>
+
+            <!-- Thanh xác suất, có vạch đánh dấu ngưỡng của mô hình -->
+            <div class="gauge">
+                <div class="gauge-fill" id="gaugeFill"></div>
+                <div class="gauge-mark" id="gaugeMark"></div>
+            </div>
+            <div class="gauge-legend">
+                <span>0%</span><span id="thresholdText"></span><span>100%</span>
+            </div>
+
+            <p class="message" id="messageText"></p>
+
+            <h3>Đánh giá tham khảo từng chỉ số</h3>
+            <ul class="indicators" id="indicatorList"></ul>
+
+            <ul class="warnings" id="warningList"></ul>
+        </div>
+
+        <p class="disclaimer">
+            Lưu ý: Kết quả chỉ mang tính tham khảo, được tính bởi mô hình học máy huấn luyện trên bộ dữ liệu
+            Diabetes Prediction Dataset (Kaggle). Kết quả <b>không thay thế chẩn đoán của bác sĩ</b>.
+        </p>
+    </section>
+
+    <!-- ================= LỊCH SỬ ================= -->
+    <section class="card full-width">
+        <div class="history-head">
+            <h2>Lịch sử dự đoán gần đây</h2>
+            <button class="secondary-btn small" id="reloadHistory">Tải lại</button>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>Thời gian</th><th>Giới tính</th><th>Tuổi</th><th>Tăng HA</th><th>Bệnh tim</th>
+                    <th>Hút thuốc</th><th>BMI</th><th>HbA1c</th><th>Đường huyết</th><th>Xác suất</th><th>Kết luận</th>
+                </tr>
+                </thead>
+                <tbody id="historyBody">
+                <tr><td colspan="11" class="center">Chưa có dữ liệu</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    Nhóm 7 - Trường Đại học Công Thương TP.HCM - GVHD: TS. Phùng Thế Bảo
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

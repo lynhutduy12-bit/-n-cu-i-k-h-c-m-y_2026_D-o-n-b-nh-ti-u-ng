@@ -1,0 +1,5 @@
+chạy lệnh trên terminal:
+ 
+	.\run.bat 
+	
+	chọn 1 chạy chương trình xong rồi chọn 2 để chay wed  

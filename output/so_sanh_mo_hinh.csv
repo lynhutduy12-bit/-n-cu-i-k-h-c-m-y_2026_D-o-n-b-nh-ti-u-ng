@@ -1,0 +1,5 @@
+﻿model,params,cv_f1_mean,cv_f1_std,cv_auc_mean,test_accuracy,test_precision,test_recall,test_f1,test_roc_auc,tn,fp,fn,tp,train_ms,predict_ms
+Logistic Regression,"C=100.0, class_weight=none",0.733373,0.010211,0.961786,0.957451,0.859247,0.619104,0.719671,0.959934,17357,172,646,1050,118,0
+Decision Tree,"max_depth=12, min_samples_split=2, min_samples_leaf=50, criterion=gini",0.806625,0.006917,0.973165,0.970403,0.978760,0.679245,0.801949,0.972923,17504,25,544,1152,42,0
+KNN,"n_neighbors=5, weights=uniform, metric=euclidean",0.727893,0.007598,0.902927,0.958596,0.892670,0.603184,0.719916,0.905107,17406,123,673,1023,0,1082
+Random Forest,"n_estimators=200, max_depth=12, min_samples_leaf=10, max_features=0.5",0.805942,0.007014,0.976772,0.970611,0.992167,0.672170,0.801406,0.976735,17520,9,556,1140,276,43

@@ -1,0 +1,173 @@
+/* ===== Giao diện website dự đoán nguy cơ tiểu đường - Nhóm 7 ===== */
+
+:root {
+    --primary: #0f766e;        /* xanh y tế */
+    --primary-dark: #115e59;
+    --bg: #f1f5f4;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #d9e2e0;
+    --ok: #15803d;   --ok-bg: #dcfce7;
+    --warn: #b45309; --warn-bg: #fef3c7;
+    --bad: #b91c1c;  --bad-bg: #fee2e2;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+}
+
+.container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+
+/* ----- Thanh tiêu đề ----- */
+.topbar { background: var(--primary); color: #fff; padding: 18px 0; }
+.topbar-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 14px; }
+.logo {
+    width: 44px; height: 44px; border-radius: 10px; background: #fff; color: var(--primary);
+    display: grid; place-items: center; font-size: 30px; font-weight: 700;
+}
+.brand h1 { margin: 0; font-size: 22px; }
+.brand p { margin: 2px 0 0; opacity: .85; font-size: 14px; }
+.model-badge { background: rgba(255,255,255,.15); padding: 8px 14px; border-radius: 8px; font-size: 13px; }
+
+/* ----- Bố cục 2 cột ----- */
+.layout {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 20px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+.full-width { grid-column: 1 / -1; }
+.layout > * { min-width: 0; }   /* để bảng rộng tự cuộn ngang, không kéo giãn cả trang trên điện thoại */
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+}
+.card h2 { margin: 0 0 4px; font-size: 19px; }
+.card h3 { font-size: 15px; margin: 20px 0 8px; }
+.hint { color: var(--muted); font-size: 14px; margin: 0 0 16px; }
+
+/* ----- Form ----- */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 18px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field.full { grid-column: 1 / -1; }
+.field > label { font-weight: 600; font-size: 14px; }
+.field small { color: var(--muted); font-size: 12px; }
+
+input[type=number], select {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 15px;
+    background: #fff;
+}
+input:focus, select:focus { outline: 2px solid #99d5cf; border-color: var(--primary); }
+input.invalid { border-color: var(--bad); background: var(--bad-bg); }
+
+.radio-group { display: flex; gap: 10px; }
+.radio-group label {
+    flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px;
+    cursor: pointer; font-size: 15px; display: flex; align-items: center; gap: 8px;
+}
+.radio-group label:has(input:checked) { border-color: var(--primary); background: #e6f4f2; }
+
+.link-btn {
+    background: none; border: none; padding: 0; color: var(--primary);
+    font-size: 12px; text-align: left; cursor: pointer; text-decoration: underline;
+}
+.bmi-calc { display: flex; gap: 6px; }
+.bmi-calc input { width: 100%; min-width: 0; padding: 8px; font-size: 13px; }
+
+.actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+button { font-family: inherit; }
+.primary-btn, .secondary-btn, .small-btn {
+    border-radius: 8px; padding: 11px 20px; font-size: 15px; cursor: pointer; border: 1px solid transparent;
+}
+.primary-btn { background: var(--primary); color: #fff; font-weight: 600; }
+.primary-btn:hover { background: var(--primary-dark); }
+.primary-btn:disabled { opacity: .6; cursor: wait; }
+.secondary-btn { background: #fff; border-color: var(--border); color: var(--text); }
+.secondary-btn:hover { background: #f3f4f6; }
+.secondary-btn.small, .small-btn { padding: 6px 12px; font-size: 13px; }
+.small-btn { background: var(--primary); color: #fff; }
+
+.error {
+    margin-top: 14px; padding: 10px 14px; border-radius: 8px;
+    background: var(--bad-bg); color: var(--bad); font-size: 14px;
+}
+
+/* ----- Kết quả ----- */
+.empty { text-align: center; padding: 50px 10px; color: var(--muted); }
+
+.verdict {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 18px; border-radius: 10px; margin-top: 12px;
+}
+.verdict-label { font-size: 20px; font-weight: 700; }
+.verdict-prob { text-align: right; }
+.verdict-prob span { font-size: 30px; font-weight: 700; display: block; line-height: 1.1; }
+.verdict-prob small { font-size: 12px; opacity: .8; }
+
+.level-thap     { background: var(--ok-bg);   color: var(--ok); }
+.level-theo_doi { background: var(--warn-bg); color: var(--warn); }
+.level-cao      { background: var(--bad-bg);  color: var(--bad); }
+
+.gauge {
+    position: relative; height: 12px; border-radius: 6px; margin-top: 18px;
+    background: linear-gradient(to right, #bbf7d0, #fde68a, #fecaca);
+}
+.gauge-fill {
+    position: absolute; top: -4px; width: 4px; height: 20px; border-radius: 2px;
+    background: var(--text); transition: left .4s;
+}
+.gauge-mark { position: absolute; top: -6px; height: 24px; border-left: 2px dashed var(--bad); }
+.gauge-legend { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+.message { margin: 16px 0 0; font-size: 15px; }
+
+.indicators { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.indicators li {
+    display: flex; justify-content: space-between; gap: 10px;
+    padding: 9px 12px; border-radius: 8px; font-size: 14px;
+}
+.indicators li b { min-width: 92px; display: inline-block; }
+.indicators .ok   { background: var(--ok-bg);   color: var(--ok); }
+.indicators .warn { background: var(--warn-bg); color: var(--warn); }
+.indicators .bad  { background: var(--bad-bg);  color: var(--bad); }
+
+.warnings { padding-left: 18px; color: var(--warn); font-size: 13px; }
+
+.disclaimer {
+    margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border);
+    font-size: 12.5px; color: var(--muted);
+}
+
+/* ----- Lịch sử ----- */
+.history-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { padding: 9px 10px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+th { background: #f6faf9; font-weight: 600; }
+td.center { text-align: center; color: var(--muted); }
+.tag { padding: 2px 8px; border-radius: 6px; font-size: 13px; }
+.tag.yes { background: var(--bad-bg); color: var(--bad); }
+.tag.no  { background: var(--ok-bg);  color: var(--ok); }
+
+.footer { text-align: center; color: var(--muted); font-size: 13px; padding: 10px 0 30px; }
+
+/* ----- Màn hình nhỏ (điện thoại) ----- */
+@media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: 1fr; }
+}

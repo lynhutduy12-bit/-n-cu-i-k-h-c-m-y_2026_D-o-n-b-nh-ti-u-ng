@@ -1,0 +1,26 @@
+﻿step,item,value
+1_thu_thap,nguon,Kaggle - Diabetes Prediction Dataset (iammustafatz)
+1_thu_thap,so_ban_ghi,100000
+1_thu_thap,dong_loi_bo_qua,0
+1_thu_thap,nhan_0,91500
+1_thu_thap,nhan_1,8500
+2_tien_xu_ly,so_ban_ghi_dau_vao,100000
+2_tien_xu_ly,thieu_gender,0
+2_tien_xu_ly,thieu_age,0
+2_tien_xu_ly,thieu_hypertension,0
+2_tien_xu_ly,thieu_heart_disease,0
+2_tien_xu_ly,thieu_smoking_history,0
+2_tien_xu_ly,thieu_bmi,0
+2_tien_xu_ly,thieu_hba1c_level,0
+2_tien_xu_ly,thieu_blood_glucose_level,0
+2_tien_xu_ly,thieu_diabetes,0
+2_tien_xu_ly,gia_tri_bat_thuong,0
+2_tien_xu_ly,loai_do_thieu_nhan,0
+2_tien_xu_ly,ban_ghi_trung_lap,3854
+2_tien_xu_ly,loai_gender_other,18
+2_tien_xu_ly,so_dac_trung,13
+2_tien_xu_ly,so_mau_train,76903
+2_tien_xu_ly,so_mau_test,19225
+2_tien_xu_ly,duong_tinh_train,6786
+2_tien_xu_ly,duong_tinh_test,1696
+2_tien_xu_ly,so_ban_ghi_sau_xu_ly,96128

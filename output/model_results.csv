@@ -1,0 +1,9 @@
+﻿stage,model,params,accuracy,precision,recall,f1,roc_auc,tn,fp,fn,tp,train_ms
+baseline,Logistic Regression,"C=1.0, class_weight=none",0.957451,0.859836,0.618514,0.719479,0.959934,17358,171,647,1049,191
+baseline,Decision Tree,"max_depth=None, min_samples_split=2, min_samples_leaf=1, criterion=gini",0.947412,0.689122,0.735849,0.711719,0.852171,16966,563,448,1248,148
+baseline,KNN,"n_neighbors=5, weights=uniform, metric=euclidean",0.958596,0.892670,0.603184,0.719916,0.905107,17406,123,673,1023,0
+baseline,Random Forest,"n_estimators=100, max_depth=None, min_samples_leaf=1, max_features=sqrt",0.970247,0.988696,0.670401,0.799016,0.971623,17516,13,559,1137,301
+tuned,Logistic Regression,"C=100.0, class_weight=none",0.957451,0.859247,0.619104,0.719671,0.959934,17357,172,646,1050,121
+tuned,Decision Tree,"max_depth=12, min_samples_split=2, min_samples_leaf=50, criterion=gini",0.970403,0.978760,0.679245,0.801949,0.972923,17504,25,544,1152,43
+tuned,KNN,"n_neighbors=5, weights=uniform, metric=euclidean",0.958596,0.892670,0.603184,0.719916,0.905107,17406,123,673,1023,0
+tuned,Random Forest,"n_estimators=200, max_depth=12, min_samples_leaf=10, max_features=0.5",0.970611,0.992167,0.672170,0.801406,0.976735,17520,9,556,1140,259
